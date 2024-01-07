@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Application</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    #quiz-container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+    }
+    .option {
+      margin: 5px;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h2>Quiz Application</h2>
+  <div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <button onclick="nextQuestion()">Next</button>
+  </div>
+  <div id="result"></div>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "What is the capital of France?",
+      options: ["Paris", "London", "Berlin", "Madrid"],
+      correctAnswer: "Paris"
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      options: ["Earth", "Mars", "Venus", "Jupiter"],
+      correctAnswer: "Mars"
+    },
+    {
+      question: "What is the largest mammal?",
+      options: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+      correctAnswer: "Blue Whale"
+    },
+    {
+    question: "What is the capital of Japan?",
+    options: ["Tokyo", "Seoul", "Beijing", "Bangkok"],
+    correctAnswer: "Tokyo"
+  },
+  {
+    question: "Who wrote 'Romeo and Juliet'?",
+    options: ["William Shakespeare", "Jane Austen", "Charles Dickens", "Mark Twain"],
+    correctAnswer: "William Shakespeare"
+  },
+  {
+    question: "What is the largest ocean on Earth?",
+    options: ["Atlantic Ocean", "Indian Ocean", "Southern Ocean", "Pacific Ocean"],
+    correctAnswer: "Pacific Ocean"
+  },
+  {
+    question: "Which programming language is known for its 'C' syntax?",
+    options: ["Java", "Python", "C++", "JavaScript"],
+    correctAnswer: "C++"
+  },
+  {
+    question: "Who discovered the theory of relativity?",
+    options: ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Niels Bohr"],
+    correctAnswer: "Albert Einstein"
+  }
+  
+];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const questionElement = document.getElementById("question");
+    const optionsElement = document.getElementById("options");
+    const currentQuizData = quizData[currentQuestion];
+
+    questionElement.textContent = currentQuizData.question;
+
+    optionsElement.innerHTML = "";
+    currentQuizData.options.forEach((option, index) => {
+      const optionElement = document.createElement("div");
+      optionElement.classList.add("option");
+      optionElement.textContent = option;
+      optionElement.onclick = () => checkAnswer(index);
+      optionsElement.appendChild(optionElement);
+    });
+  }
+
+  function checkAnswer(selectedIndex) {
+    const currentQuizData = quizData[currentQuestion];
+
+    if (currentQuizData.options[selectedIndex] === currentQuizData.correctAnswer) {
+      score++;
+    }
+
+    if (currentQuestion < quizData.length - 1) {
+      currentQuestion++;
+      loadQuestion();
+    } else {
+      displayResult();
+    }
+  }
+
+  function displayResult() {
+    const resultElement = document.getElementById("result");
+    resultElement.textContent = `Your Score: ${score} out of ${quizData.length}`;
+    document.getElementById("quiz").style.display = "none";
+  }
+
+  function nextQuestion() {
+    if (currentQuestion < quizData.length - 1) {
+      currentQuestion++;
+      loadQuestion();
+    } else {
+      displayResult();
+    }
+  }
+
+  // Initial load
+  loadQuestion();
+</script>
+
+</body>
+</html>
